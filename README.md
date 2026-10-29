@@ -12,23 +12,23 @@ I am **not responsible** for any misuse of this information. Do not use these te
 
 ## Structure
 
-Write-ups are organized by Android Intent vulnerability category:
-
-- [`implicit-intents/`](./implicit-intents) — Issues arising from implicit intent resolution and hijacking.
-- [`exported-components/`](./exported-components) — Exported Activities, Services, and Broadcast Receivers reachable by other apps.
-- [`pending-intents/`](./pending-intents) — PendingIntent misuse and mutability issues.
-- [`intent-redirection/`](./intent-redirection) — Intent redirection / confused deputy issues.
-- [`deep-links/`](./deep-links) — Deep link and App Link handling flaws.
-- [`broadcast-receivers/`](./broadcast-receivers) — Vulnerable broadcast receivers.
-- [`content-providers/`](./content-providers) — Data leaks via content providers reachable through intents.
-
-Each flag write-up folder contains:
+Each flag has its own top-level folder:
 
 ```
 flag-N/
 ├── README.md     # Explanation of the vulnerability and solution steps
-└── exploit/       # Any supporting code (PoC app, script, adb commands)
+└── exploit/       # Any supporting code (PoC app, script, adb commands), when applicable
 ```
+
+## Flags
+
+| Flag | Vulnerability category | Write-up |
+|------|------------------------|----------|
+| 2 | Exported component | [`flag-2/`](./flag-2) |
+| 3 | Deep link / App Link trust bypass | [`flag-3/`](./flag-3) |
+| 4 | Exported component — multi-step flow / state machine | [`flag-4/`](./flag-4) |
+
+Categories covered across this repo include: exported components (Activities, Services, Broadcast Receivers), implicit intent resolution, PendingIntent misuse, intent redirection, deep links / App Links, and content providers reachable through intents. Each write-up's **Vulnerability** section states which category it falls under.
 
 ## Format
 
