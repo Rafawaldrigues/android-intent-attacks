@@ -30,6 +30,7 @@ flag-N/
 | 5 | Intent redirection — nested intent ("intent-in-intent") | [`flag-5/`](./flag-5) |
 | 6 | Intent redirection — confused deputy (intent forwarding) | [`flag-6/`](./flag-6) |
 | 7 | Exported component — lifecycle trust (`onNewIntent` + `SINGLE_TOP`) | [`flag-7/`](./flag-7) |
+| 8 | Exported component — weak caller identity check (`getCallingActivity`) | [`flag-8/`](./flag-8) |
 | 9 | Exported component — weak caller identity check (`getCallingActivity`) | [`flag-9/`](./flag-9) |
 
 Categories covered across this repo include: exported components (Activities, Services, Broadcast Receivers), implicit intent resolution, PendingIntent misuse, intent redirection, deep links / App Links, and content providers reachable through intents. Each write-up's **Vulnerability** section states which category it falls under.
