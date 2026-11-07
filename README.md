@@ -34,6 +34,7 @@ flag-N/
 | 9 | Exported component — weak caller identity check (`getCallingActivity`) | [`flag-9/`](./flag-9) |
 | 10 | Implicit intent hijacking | [`flag-10/`](./flag-10) |
 | 11 | Implicit intent hijacking — spoofed `startActivityForResult` response | [`flag-11/`](./flag-11) |
+| 12 | Implicit intent hijacking — attacker-controlled "precondition" extra | [`flag-12/`](./flag-12) |
 
 Categories covered across this repo include: exported components (Activities, Services, Broadcast Receivers), implicit intent resolution, PendingIntent misuse, intent redirection, deep links / App Links, and content providers reachable through intents. Each write-up's **Vulnerability** section states which category it falls under.
 
