@@ -7,9 +7,26 @@
 
 ## Target
 
-`Flag22Activity` accepts a `PendingIntent` from the caller, as an extra on the `Intent` used to launch it, and later fires it (`PendingIntent.send()`), apparently filling in some of its own data (the flag) on top of whatever base `Intent` the `PendingIntent` wraps.
+`Flag22Activity` accepts a `PendingIntent` from the caller, as an extra named `"PENDING"` on the `Intent` used to launch it, and immediately fires it, attaching the flag as data:
 
-> Note: this write-up is based on observed behavior and the PoC code, since the target activity wasn't decompiled for this flag — only its reaction to the crafted `PendingIntent` was inspected.
+```java
+protected void onCreate(Bundle bundle) {
+    super.onCreate(bundle);
+    this.f = new LogHelper(this);
+    PendingIntent pendingIntent = (PendingIntent) getIntent().getParcelableExtra("PENDING");
+    if (pendingIntent != null) {
+        try {
+            Intent intent = new Intent();
+            intent.putExtra("success", true);
+            intent.putExtra("flag", this.f.appendLog(this.flag));
+            pendingIntent.send(this, 0, intent);
+            success(null, this);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+}
+```
 
 ## Vulnerability
 

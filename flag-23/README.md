@@ -7,9 +7,36 @@
 
 ## Target
 
-This flag flips the direction of [flag 22](../flag-22): instead of the attacker creating the `PendingIntent`, `Flag23Activity` creates one of its own — with `FLAG_MUTABLE` — and hands it to another component (via the custom action `io.hextree.attacksurface.MUTATE_ME`, carried as an extra named `"pending_intent"`), presumably expecting it to simply be fired later as a notification/callback.
+This flag flips the direction of [flag 22](../flag-22): instead of the attacker creating the `PendingIntent`, `Flag23Activity` creates one of its own and hands it out via an implicit broadcast, expecting it to simply be fired later as a trigger:
 
-> Note: this write-up is based on observed behavior and the PoC code, since the target activity wasn't decompiled for this flag — only its reaction to the fill-in `Intent` was inspected.
+```java
+protected void onCreate(Bundle bundle) {
+    super.onCreate(bundle);
+    this.f = new LogHelper(this);
+    Intent intent = getIntent();
+    String action = intent.getAction();
+    if (action == null) {
+        Intent intent2 = new Intent("io.hextree.attacksurface.GIVE_FLAG");
+        intent2.setClassName(getPackageName(), Flag23Activity.class.getCanonicalName());
+        PendingIntent activity = PendingIntent.getActivity(getApplicationContext(), 0, intent2, 33554432);
+
+        Intent intent3 = new Intent("io.hextree.attacksurface.MUTATE_ME");
+        intent3.addFlags(8);
+        intent3.putExtra("pending_intent", activity);
+        startActivity(intent3);
+        return;
+    }
+    if (action.equals("io.hextree.attacksurface.GIVE_FLAG")) {
+        if (intent.getIntExtra("code", -1) == 42) {
+            success(this);
+        } else {
+            Toast.makeText(this, "Condition not met for flag", 0).show();
+        }
+    }
+}
+```
+
+The flag value `33554432` passed to `PendingIntent.getActivity()` is `0x02000000` — `PendingIntent.FLAG_MUTABLE`. So `Flag23Activity` itself creates a **mutable** `PendingIntent` whose base `Intent` is explicitly addressed back to itself (`Flag23Activity`, action `GIVE_FLAG`), then broadcasts that `PendingIntent` via the implicit `MUTATE_ME` action for anyone to pick up.
 
 ## Vulnerability
 
@@ -53,7 +80,7 @@ adb shell am force-stop io.hextree.attacksurface
 adb shell am start -n io.hextree.attacksurface/.activities.Flag23Activity
 ```
 
-3. When our `CatcherActivity` receives the `pending_intent` extra, it builds a fill-in `Intent` carrying `code = 42` and calls `pi.send(this, 0, fillIn)`. Because the `PendingIntent` is mutable, this extra is merged into the base `Intent` before it's delivered to wherever `Flag23Activity` actually intended it to go — satisfying whatever internal check expects `code == 42` and releasing the flag.
+3. When our `CatcherActivity` receives the `pending_intent` extra, it builds a fill-in `Intent` carrying `code = 42` and calls `pi.send(this, 0, fillIn)`. Because the `PendingIntent` is mutable, this extra is merged into its base `Intent` (action `GIVE_FLAG`, explicitly addressed back to `Flag23Activity`) before delivery. The result: `Flag23Activity` receives an intent with `action == "io.hextree.attacksurface.GIVE_FLAG"` and `code == 42`, satisfies its own check, and releases the flag.
 
 See [`exploit/CatcherActivity.kt`](./exploit/CatcherActivity.kt) for the full handler (shared with flag 22's catcher, dispatching on whether a `pending_intent` extra is present).
 
