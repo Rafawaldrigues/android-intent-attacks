@@ -36,6 +36,7 @@ flag-N/
 | 11 | Implicit intent hijacking — spoofed `startActivityForResult` response | [`flag-11/`](./flag-11) |
 | 12 | Implicit intent hijacking — attacker-controlled "precondition" extra | [`flag-12/`](./flag-12) |
 | 13 | Deep link trust bypass — forged browser-origin signals | [`flag-13/`](./flag-13) |
+| 15 | Deep link trust bypass — `intent://` link forged without a browser | [`flag-15/`](./flag-15) |
 | 22 | PendingIntent misuse — attacker-supplied PendingIntent as data courier | [`flag-22/`](./flag-22) |
 | 23 | PendingIntent misuse — mutable PendingIntent data injection | [`flag-23/`](./flag-23) |
 
