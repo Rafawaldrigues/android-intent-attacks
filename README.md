@@ -38,6 +38,7 @@ flag-N/
 | 13 | Deep link trust bypass — forged browser-origin signals | [`flag-13/`](./flag-13) |
 | 15 | Deep link trust bypass — `intent://` link forged without a browser | [`flag-15/`](./flag-15) |
 | 30 | Content provider data exposure — unauthenticated query | [`flag-30/`](./flag-30) |
+| 31 | Content provider data exposure — unauthenticated query (`UriMatcher` path) | [`flag-31/`](./flag-31) |
 | 22 | PendingIntent misuse — attacker-supplied PendingIntent as data courier | [`flag-22/`](./flag-22) |
 | 23 | PendingIntent misuse — mutable PendingIntent data injection | [`flag-23/`](./flag-23) |
 
