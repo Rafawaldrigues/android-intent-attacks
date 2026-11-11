@@ -40,6 +40,7 @@ flag-N/
 | 30 | Content provider data exposure — unauthenticated query | [`flag-30/`](./flag-30) |
 | 31 | Content provider data exposure — unauthenticated query (`UriMatcher` path) | [`flag-31/`](./flag-31) |
 | 32 | Content provider data exposure — SQL injection via `selection` argument | [`flag-32/`](./flag-32) |
+| 33.1 | Content provider data exposure — free URI grant + SQL injection pivot | [`flag-33.1/`](./flag-33.1) |
 | 22 | PendingIntent misuse — attacker-supplied PendingIntent as data courier | [`flag-22/`](./flag-22) |
 | 23 | PendingIntent misuse — mutable PendingIntent data injection | [`flag-23/`](./flag-23) |
 
